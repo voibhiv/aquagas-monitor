@@ -1,0 +1,25 @@
+services:
+  aqua-gas-monitor:
+    build: .
+    command: yarn start
+    ports:
+      - '3000:3000'
+    volumes:
+      - .:/usr/app
+    depends_on:
+      - 'db'
+  db:
+    image: mysql:5.7.31
+    restart: always
+    environment:
+      MYSQL_DATABASE: aqua-gas-monitor
+      MYSQL_USER: aqua
+      MYSQL_PASSWORD: gas
+      MYSQL_ROOT_PASSWORD: aqua-gas
+    volumes:
+      - docker-aqua-gas:/var/lib/mysql
+    ports:
+      - '3306:3306'
+      
+volumes:
+  docker-aqua-gas:
