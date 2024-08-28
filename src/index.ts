@@ -8,6 +8,6 @@ import { SetupServer } from './server';
     await server.init();
     server.start();
   } catch (error) {
-    console.log('error on init the server');
+    console.log('error on init the server', error);
   }
 })();
