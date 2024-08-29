@@ -9,17 +9,21 @@ services:
     depends_on:
       - 'db'
   db:
-    image: mysql:5.7.31
+    image: postgres
+    container_name: aquagas-db
     restart: always
+    tty: true
     environment:
-      MYSQL_DATABASE: aqua-gas-monitor
-      MYSQL_USER: aqua
-      MYSQL_PASSWORD: gas
-      MYSQL_ROOT_PASSWORD: aqua-gas
-    volumes:
-      - docker-aqua-gas:/var/lib/mysql
+      POSTGRES_DB: aquagas
+      POSTGRES_USER: aqua
+      POSTGRES_PASSWORD: gas
+      PGDATA: /var/lib/postgresql/data/
+    env_file:
+      - database.env
     ports:
-      - '3306:3306'
-      
+      - 5432:5432
+    volumes:
+      - docker-aqua-gas:/var/lib/postgresql/data/:rw
+
 volumes:
   docker-aqua-gas:

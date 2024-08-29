@@ -1,11 +1,11 @@
 import './utils/module-alias';
 import bodyParser from 'body-parser';
 import { Server } from '@overnightjs/core';
-import { MainController } from './controllers/main.controller';
 import { Application } from 'express';
 import * as http from 'http';
 import cors from 'cors';
-
+import { MainController } from './infra/controllers/main.controller';
+import express from 'express';
 export class SetupServer extends Server {
   private server?: http.Server;
 
@@ -16,7 +16,6 @@ export class SetupServer extends Server {
   public init(): void {
     this.setupExpress();
     this.setupControllers();
-    console.log('oi');
   }
 
   private setupControllers(): void {
@@ -31,7 +30,10 @@ export class SetupServer extends Server {
         origin: '*',
       }),
     );
+    this.app.use(express.urlencoded({ extended: true }));
   }
+
+  // private setup
 
   public getApp(): Application {
     return this.app;

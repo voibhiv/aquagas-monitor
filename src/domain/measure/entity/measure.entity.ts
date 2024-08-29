@@ -2,7 +2,7 @@ export type MeasureProps = {
   measure_uuid: string;
   measure_datetime: Date;
   measure_type: string;
-  hasConfirmed: boolean;
+  has_confirmed: boolean;
   image_url: string;
 };
 
@@ -10,17 +10,16 @@ export class Measure {
   private constructor(private props: MeasureProps) {}
 
   public static create(
-    measure_uuid: string,
     measure_datetime: Date,
     measure_type: string,
-    hasConfirmed: boolean,
+    has_confirmed: boolean = false,
     image_url: string,
   ) {
     return new Measure({
-      measure_uuid,
+      measure_uuid: crypto.randomUUID.toString(),
       measure_datetime,
       measure_type,
-      hasConfirmed,
+      has_confirmed,
       image_url,
     });
   }
