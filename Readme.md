@@ -29,7 +29,7 @@ The back-end of a service that manages individual readings for water and gas con
     GEMINI_API_KEY='your-secret-key'
    ```
 
-   <b>voce pode conseguir uma secret-key aqui:</b> https://ai.google.dev/gemini-api/docs/api-key?hl=pt-br
+   <b>voce pode conseguir uma secret-key aqui:</b> https://ai.google.dev/gemini-api/docs/api-key
 
 4. Run the containers using Docker:
    ```bash
