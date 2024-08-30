@@ -89,4 +89,17 @@ export class SetupServer extends Server {
       console.log('Server listening on port: ' + this.port);
     });
   }
+
+  public async close(): Promise<void> {
+    if (this.server) {
+      await new Promise((resolve, reject) => {
+        this.server?.close((err) => {
+          if (err) {
+            return reject(err);
+          }
+          resolve(true);
+        });
+      });
+    }
+  }
 }
