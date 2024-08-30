@@ -16,7 +16,7 @@
 2. Select the type of your file (in windows should be `CRLF`)
 ![alt text](image-1.png)
 
-3. Change to `LF` and follow the below instructions
+3. Change to `LF`, save file, and follow the below instructions
 ![alt text](image-2.png)
 
 <hr>
