@@ -2,6 +2,8 @@ import { PrismaClient } from '@prisma/client';
 import { MainGateway } from '@src/domain/gateway/main.gateway';
 import { Measure } from '@src/domain/measure/entity/measure.entity';
 import { Either, left, right } from '@src/utils/errors/either';
+import { InvalidLectureFormat } from '@src/utils/errors/system-errors-formatter/invalid-lecture-format.error';
+import { LectureConfirmedByMonthFormat } from '@src/utils/errors/system-errors-formatter/lecture-confirmed-by-month-format.error';
 
 export class MainRepositoryPrisma implements MainGateway {
   private constructor(private readonly prismaClient: PrismaClient) {}
@@ -22,6 +24,41 @@ export class MainRepositoryPrisma implements MainGateway {
         customer_code: measure.customer_code,
       },
     });
+  }
+
+  public async confirmValue(data: {
+    measure_uuid: string;
+    confirmed_value: number;
+  }): Promise<
+    Either<InvalidLectureFormat | LectureConfirmedByMonthFormat, boolean>
+  > {
+    const measure = await this.prismaClient.measures.findFirst({
+      where: {
+        measure_uuid: data.measure_uuid,
+      },
+    });
+
+    if (!measure) {
+      return left(new InvalidLectureFormat(`Leitura não encontrada`));
+    }
+
+    if (measure.has_confirmed) {
+      return left(
+        new LectureConfirmedByMonthFormat(`Leitura do mês já realizada`),
+      );
+    }
+
+    measure.has_confirmed = true;
+    measure.measure_value = data.confirmed_value;
+
+    await this.prismaClient.measures.update({
+      where: {
+        measure_uuid: data.measure_uuid,
+      },
+      data: measure,
+    });
+
+    return right(true);
   }
 
   public async list(): Promise<Measure[]> {

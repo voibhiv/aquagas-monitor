@@ -1,10 +1,7 @@
 import { Either, left, right } from '../either';
 import { InvalidBase64Format } from '../system-errors-formatter/invalid-base64-format.error';
 import { InvalidRequestFormat } from '../system-errors-formatter/invalid-request-format.error';
-
-function isEmpty(value: any): boolean {
-  return value === undefined || value === null || value === '';
-}
+import { isEmpty } from './empty-validator';
 
 export const checkPostParameters = (data: {
   image: string;

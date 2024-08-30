@@ -16,6 +16,7 @@ import {
 } from '@google/generative-ai';
 import { GenerateImagePromptUseCase } from './usecases/gemini/generate-prompt-by-image/generate-prompt-by-image.usecase';
 import path from 'path';
+import { FetchRegisterUseCase } from './usecases/system/fetch-register/fetch-register.usecase';
 
 export class SetupServer extends Server {
   private server?: http.Server;
@@ -35,12 +36,14 @@ export class SetupServer extends Server {
   private setupControllers(): void {
     const repository = MainRepositoryPrisma.create(prisma);
     const useCaseCreateRegister = CreateRegisterUseCase.create(repository);
+    const useCaseFetchRegister = FetchRegisterUseCase.create(repository);
     const useCaseGenerateImage = GenerateImagePromptUseCase.create(
       this.geminiModel,
     );
 
     const mainController = new MainController(
       useCaseCreateRegister,
+      useCaseFetchRegister,
       useCaseGenerateImage,
     );
     this.addControllers([mainController]);
