@@ -10,7 +10,7 @@ services:
       - 'db'
   db:
     image: postgres
-    container_name: aquagas-db
+    container_name: db
     restart: always
     tty: true
     environment:
@@ -22,6 +22,14 @@ services:
       - 5432:5432
     volumes:
       - docker-aqua-gas:/var/lib/postgresql/data/:rw
+  db-migration:
+    build: .
+    depends_on:
+      - "aqua-gas-monitor"
+      - "db"
+    environment:
+      DATABASE_URL: postgresql://aqua:gas@db:5432/aquagas
+    command: bash -c './wait-for-it.sh -h db -p 5432 && npx prisma migrate dev'
 
 volumes:
   docker-aqua-gas:

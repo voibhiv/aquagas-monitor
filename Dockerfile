@@ -4,12 +4,12 @@ WORKDIR /usr/app
 
 COPY package*.json ./
 COPY .env ./
-RUN yarn
+RUN yarn install
 
 COPY . .
 
+RUN chmod +x /usr/app/wait-for-it.sh
 RUN npx prisma generate
-RUN npx prisma migrate deploy
 
 EXPOSE 3000
 CMD yarn start

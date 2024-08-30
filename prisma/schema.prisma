@@ -11,7 +11,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://aqua:gas@localhost:5432/aquagas"
+  url      = "postgresql://aqua:gas@db:5432/aquagas"
 }
 
 model Measures {
