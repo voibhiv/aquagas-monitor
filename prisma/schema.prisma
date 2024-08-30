@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
@@ -13,21 +14,14 @@ datasource db {
   url      = "postgresql://aqua:gas@localhost:5432/aquagas"
 }
 
-model Customer {
-  customer_code String     @id
-  measures      Measures[]
-
-  @@map("customer")
-}
-
 model Measures {
-  measure_uuid     String    @id
+  measure_uuid     String   @id
   measure_datetime DateTime
   measure_type     String
   has_confirmed    Boolean
   image_url        String
-  customer         Customer? @relation(fields: [customer_code], references: [customer_code])
-  customer_code    String?
+  measure_value    Int
+  customer_code    String
 
   @@map("measures")
 }
