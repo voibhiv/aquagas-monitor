@@ -1,9 +1,13 @@
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { MainGateway } from '@src/domain/gateway/main.gateway';
-import { Measure } from '@src/domain/measure/entity/measure.entity';
+import {
+  Measure,
+  MeasureProps,
+} from '@src/domain/measure/entity/measure.entity';
 import { Either, left, right } from '@src/utils/errors/either';
 import { InvalidLectureFormat } from '@src/utils/errors/system-errors-formatter/invalid-lecture-format.error';
 import { LectureConfirmedByMonthFormat } from '@src/utils/errors/system-errors-formatter/lecture-confirmed-by-month-format.error';
+import { isEmpty } from '@src/utils/errors/validators/empty-validator';
 
 export class MainRepositoryPrisma implements MainGateway {
   private constructor(private readonly prismaClient: PrismaClient) {}
@@ -61,8 +65,32 @@ export class MainRepositoryPrisma implements MainGateway {
     return right(true);
   }
 
-  public async list(): Promise<Measure[]> {
-    return [];
+  public async list(
+    customer_code: string,
+    measure_type: 'WATER' | 'GAS' | '',
+  ): Promise<Either<InvalidLectureFormat, Measure[]>> {
+    let where: Prisma.MeasuresWhereInput = { customer_code };
+
+    if (!isEmpty(measure_type)) {
+      where = {
+        ...where,
+        measure_type,
+      };
+    }
+
+    const rawMeasures = await this.prismaClient.measures.findMany({
+      where,
+    });
+
+    if (!rawMeasures.length) {
+      return left(new InvalidLectureFormat(`Nenhuma leitura encontrada`, 404));
+    }
+
+    const measures = rawMeasures.map((measureData) =>
+      Measure.with(measureData as MeasureProps),
+    );
+
+    return right(measures);
   }
 
   public async validateLectureByMonth(

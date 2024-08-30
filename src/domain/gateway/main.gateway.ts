@@ -5,7 +5,10 @@ import { LectureConfirmedByMonthFormat } from '@src/utils/errors/system-errors-f
 
 export interface MainGateway {
   save(measure: Measure): Promise<void>;
-  list(customer_code: string): Promise<Measure[]>;
+  list(
+    customer_code: string,
+    measure_type: string,
+  ): Promise<Either<InvalidLectureFormat, Measure[]>>;
   validateLectureByMonth(
     measure_type: string,
     date: string,

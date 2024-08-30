@@ -17,6 +17,7 @@ import {
 import { GenerateImagePromptUseCase } from './usecases/gemini/generate-prompt-by-image/generate-prompt-by-image.usecase';
 import path from 'path';
 import { FetchRegisterUseCase } from './usecases/system/fetch-register/fetch-register.usecase';
+import { ReadRegistersUseCase } from './usecases/system/read-registers/read-registers.usecase';
 
 export class SetupServer extends Server {
   private server?: http.Server;
@@ -37,6 +38,7 @@ export class SetupServer extends Server {
     const repository = MainRepositoryPrisma.create(prisma);
     const useCaseCreateRegister = CreateRegisterUseCase.create(repository);
     const useCaseFetchRegister = FetchRegisterUseCase.create(repository);
+    const useCaseReadRegister = ReadRegistersUseCase.create(repository);
     const useCaseGenerateImage = GenerateImagePromptUseCase.create(
       this.geminiModel,
     );
@@ -44,6 +46,7 @@ export class SetupServer extends Server {
     const mainController = new MainController(
       useCaseCreateRegister,
       useCaseFetchRegister,
+      useCaseReadRegister,
       useCaseGenerateImage,
     );
     this.addControllers([mainController]);
