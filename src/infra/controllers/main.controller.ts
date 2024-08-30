@@ -52,6 +52,7 @@ export class MainController {
 
       return res.status(200).json(createUseCaseOrError.value);
     } catch (error) {
+      console.log(error);
       return res.status(500);
     }
   }
@@ -81,6 +82,7 @@ export class MainController {
 
       return res.status(200).json(updatedValueMeasureOrError.value);
     } catch (error) {
+      console.log(error);
       return res.status(500);
     }
   }
@@ -115,6 +117,7 @@ export class MainController {
 
       return res.status(200).json(listOrError.value);
     } catch (error) {
+      console.log(error);
       return res.status(500).json({ error: 'Internal server error' });
     }
   }

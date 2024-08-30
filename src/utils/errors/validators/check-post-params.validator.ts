@@ -18,7 +18,7 @@ export const checkPostParameters = (data: {
   }
 > => {
   const base64ImagePattern =
-    /^(?:[A-Z0-9+\/]{4})*(?:[A-Z0-9+\/]{2}==|[A-Z0-9+\/]{3}=)?$/i;
+    /^(?:[A-Z0-9+/]{4})*(?:[A-Z0-9+/]{2}==|[A-Z0-9+/]{3}=)?$/i;
   const isBase64Image = base64ImagePattern.test(data.image);
 
   if (!isBase64Image) {

@@ -17,7 +17,7 @@ export class Measure {
     has_confirmed: boolean = false,
     image_url: string,
     measure_value: number,
-    customer_code: string
+    customer_code: string,
   ) {
     return new Measure({
       measure_uuid: crypto.randomUUID().toString(),
@@ -26,7 +26,7 @@ export class Measure {
       has_confirmed,
       image_url,
       measure_value,
-      customer_code
+      customer_code,
     });
   }
 
