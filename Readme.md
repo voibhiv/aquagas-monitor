@@ -47,7 +47,7 @@ api-doc: https://www.postman.com/science-geoscientist-88101143/workspace/aquagas
     GEMINI_API_KEY='your-secret-key'
    ```
 
-   <b>voce pode conseguir uma secret-key aqui:</b> https://ai.google.dev/gemini-api/docs/api-key
+   <b>you can get an api-key here:</b> https://ai.google.dev/gemini-api/docs/api-key
 
 4. Run the containers using Docker:
    ```bash
