@@ -3,7 +3,6 @@
 ## Table of Contents
 
 - [Overview](#overview)
-- [Overview For Windows](#overview-for-windows)
 - [Installation](#installation)
 
 ## Overview
